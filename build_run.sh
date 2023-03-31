@@ -2,7 +2,7 @@
 
 GrobidHome="$HOME/grobid-0.6.1/"
 
-if [[-d "$GrobidHome"]]; then
+if [[ -d "$GrobidHome" ]]; then
   cd $GrobidHome
   # check if gradle is installed
   if [[ $(./gradlew -v) ]]; then
