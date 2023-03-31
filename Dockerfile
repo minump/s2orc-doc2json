@@ -12,5 +12,5 @@ RUN pip install --upgrade pip && \
 WORKDIR ./
 
 CMD build_run.sh
-CMD ["python", "setup.py", "develop"]
-CMD ["python","doc2json/grobid2json/process_pdf.py", "-i", "tests/pdf/N18-3011.pdf", "-t", "temp_dir/", "-o", "output_dir/"]
+CMD ["python3", "setup.py", "develop"]
+CMD ["python3","doc2json/grobid2json/process_pdf.py", "-i", "tests/pdf/N18-3011.pdf", "-t", "temp_dir/", "-o", "output_dir/"]
