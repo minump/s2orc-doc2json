@@ -9,6 +9,8 @@ COPY build_run.sh setup.py requirements.txt ./
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt --no-cache-dir
 
+WORKDIR ./
+
 CMD build_run.sh
 CMD ["python", "setup.py", "develop"]
 CMD ["python","doc2json/grobid2json/process_pdf.py", "-i", "tests/pdf/N18-3011.pdf", "-t", "temp_dir/", "-o", "output_dir/"]
