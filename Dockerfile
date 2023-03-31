@@ -9,6 +9,4 @@ COPY setup.py ./
 
 
 CMD build_run.sh
-
-WORKDIR /
-CMD ["python","doc2json/grobid2json/process_pdf.py -i tests/pdf/N18-3011.pdf -t temp_dir/ -o output_dir/"]
+CMD ["python","doc2json/grobid2json/process_pdf.py", "-i", "tests/pdf/N18-3011.pdf", "-t", "temp_dir/", "-o", "output_dir/"]
