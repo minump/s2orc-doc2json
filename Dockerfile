@@ -14,5 +14,5 @@ ENV PYTHONPATH=./
 
 EXPOSE 8070
 
-CMD ["bash", "build_run.sh"]
+#CMD ["bash", "build_run.sh"]
 CMD ["python3","doc2json/grobid2json/process_pdf.py", "-i", "tests/pdf/N18-3011.pdf", "-t", "temp_dir/", "-o", "output_dir/"]
