@@ -18,8 +18,8 @@ require something scalable too, which is not implemented for the moment.
 '''
 
 DEFAULT_GROBID_CONFIG = {
-    #"grobid_server": "localhost",
-    "grobid_server": "172.17.0.0",
+    "grobid_server": "localhost",
+    #"grobid_server": "172.17.0.0",
     "grobid_port": "8070",
     "batch_size": 1000,
     "sleep_time": 5,
