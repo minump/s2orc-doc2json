@@ -7,8 +7,6 @@ services:
       - 8070:8070
   doc2json:
     image: doc2json:0.1
-    ports:
-      - 8070
     depends_on:
       - grobid
 
