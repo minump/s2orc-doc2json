@@ -65,7 +65,7 @@ class GrobidClient(ApiClient):
         for pdf_file in pdf_files:
             self.process_pdf(pdf_file, output, service)
 
-    def process_pdf_stream(self, pdf_file: str, pdf_strm: bytes, output: str, service: str) -> str:
+    def process_pdf_stream(self, pdf_file: str, pdf_strm: bytes, service: str) -> str:
         # process the stream
         files = {
             'input': (
@@ -118,24 +118,24 @@ class GrobidClient(ApiClient):
             time.sleep(self.sleep_time)
             return self.process_pdf_stream(pdf_file, pdf_strm, service)
         elif status != 200:
-            with open(os.path.join(output, "failed.log"), "a+") as failed:
+            with open("failed.log", "a+") as failed:
                 failed.write(pdf_file.strip(".pdf") + "\n")
             print('Processing failed with error ' + str(status))
             return ""
         else:
             return res.text
 
-    def process_pdf(self, pdf_file: str, output: str, service: str) -> None:
+    def process_pdf(self, pdf_file: str, service: str) -> None:
         # check if TEI file is already produced
         # we use ntpath here to be sure it will work on Windows too
         pdf_file_name = ntpath.basename(pdf_file)
-        filename = os.path.join(output, os.path.splitext(pdf_file_name)[0] + '.tei.xml')
+        filename = os.path.splitext(pdf_file_name)[0] + '.tei.xml'
         if os.path.isfile(filename):
             return
 
         print(pdf_file)
         pdf_strm = open(pdf_file, 'rb').read()
-        tei_text = self.process_pdf_stream(pdf_file, pdf_strm, output, service)
+        tei_text = self.process_pdf_stream(pdf_file, pdf_strm, service)
 
         # writing TEI file
         if tei_text:

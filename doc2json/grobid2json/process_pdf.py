@@ -36,8 +36,6 @@ def process_pdf_stream(input_file: str, sha: str, input_stream: bytes, grobid_co
 
 def process_pdf_file(
         input_file: str,
-        temp_dir: str = BASE_TEMP_DIR,
-        output_dir: str = BASE_OUTPUT_DIR,
         grobid_config: Optional[Dict] = None
 ) -> str:
     """
@@ -47,13 +45,11 @@ def process_pdf_file(
     :param output_dir:
     :return:
     """
-    os.makedirs(temp_dir, exist_ok=True)
-    os.makedirs(output_dir, exist_ok=True)
 
     # get paper id as the name of the file
     paper_id = '.'.join(input_file.split('/')[-1].split('.')[:-1])
-    tei_file = os.path.join(temp_dir, f'{paper_id}.tei.xml')
-    output_file = os.path.join(output_dir, f'{paper_id}.json')
+    tei_file = paper_id + '.tei.xml'
+    output_file = paper_id + '.json'
 
     # check if input file exists and output file doesn't
     if not os.path.exists(input_file):
@@ -65,7 +61,7 @@ def process_pdf_file(
     client = GrobidClient(grobid_config)
     # TODO: compute PDF hash
     # TODO: add grobid version number to output
-    client.process_pdf(input_file, temp_dir, "processFulltextDocument")
+    client.process_pdf(input_file, "processFulltextDocument")
 
     # process TEI.XML -> JSON
     assert os.path.exists(tei_file)
@@ -81,23 +77,14 @@ def process_pdf_file(
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Run S2ORC PDF2JSON")
     parser.add_argument("-i", "--input", default=None, help="path to the input PDF file")
-    parser.add_argument("-t", "--temp", default=BASE_TEMP_DIR, help="path to the temp dir for putting tei xml files")
-    parser.add_argument("-o", "--output", default=BASE_OUTPUT_DIR, help="path to the output dir for putting json files")
-    parser.add_argument("-k", "--keep", action='store_true')
 
     args = parser.parse_args()
 
     input_path = args.input
-    temp_path = args.temp
-    output_path = args.output
-    keep_temp = args.keep
 
     start_time = time.time()
 
-    os.makedirs(temp_path, exist_ok=True)
-    os.makedirs(output_path, exist_ok=True)
-
-    process_pdf_file(input_path, temp_path, output_path)
+    process_pdf_file(input_path)
 
     runtime = round(time.time() - start_time, 3)
     print("runtime: %s seconds " % (runtime))
